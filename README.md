@@ -6,6 +6,15 @@ This is a simple KDE Connect CLI wrapper that automatically pings any available 
 By default, the kdeconnect-cli does not send messages to all connected devices when using the ping or pingmsg flags.
 While this could and probably should be patched into the kdeconnect-cli, I decided to make my own wrapper for immediate use.
 
+### Installation
+
+Running the following command should install the script to your system's path. 
+
+```
+python3 -m pip install .
+```
+
+
 ### Example Use
 
 A simple use case for this script is wanting to be notified when building a large code base has finished or are otherwise running a command in 
