@@ -6,12 +6,17 @@ def decode_line(line, encoding=sys.stdout.encoding):
     return line.decode(encoding)
 
 def kdeconnect_fetch_ids():
-    process = subprocess.Popen(["kdeconnect-cli", "-a", "--id-only"], stdout=subprocess.PIPE, shell=True)
+    process = subprocess.Popen(["kdeconnect-cli -a --id-only"], stdout=subprocess.PIPE, shell=True)
+
     out = process.stdout.readlines()
     targets = []
+
     for line in out:
         id = decode_line(line).strip()
         targets.append(id)
+    
+    print( "## Found the following devices.. ")
+    print( targets )
     return targets
 
 def targets_file_to_ids(path):
@@ -21,6 +26,9 @@ def targets_file_to_ids(path):
     for line in out:
         id = line.strip()
         targets.append(id)
+
+    print( "## Targets found from file: " + path )
+    print( targets )
     return targets
 
 
@@ -29,7 +37,6 @@ def targets_file_to_ids(path):
 @click.option('--targets', '-t', type=click.Path(exists=True), help="Optional text file containing all devices to ping.")
 def ping(message, targets):
     targets = targets_file_to_ids(targets) if targets else kdeconnect_fetch_ids()
-    print(targets)
     for target in targets:
         print( "## Sending command to device: " + str(target) )
         command = ['kdeconnect-cli', '--ping-msg', message, '-d', target]
